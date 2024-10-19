@@ -13,9 +13,39 @@
       <label for="comentario">Comentario</label>
       <input type="text" placeholder="Ingresa comentario" id="comentario" />
 
-      <button id="btnComentar">Comentar</button>
+      <button id="btnComentar">
+        Comentar
+        <script>
+          document
+            .getElementById("btnComentar")
+            .addEventListener("click", (e) => {
+              e.preventDefault();
+              const comentario = document.getElementById("comentario").value;
+              if (comentario) {
+                fetch("http://localhost:3000/back/comentario", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ comentario }),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    if (data.error) {
+                      document.getElementById("error").innerText = data.error;
+                    } else {
+                      document.getElementById("error").innerText = "";
+                      alert("Comentario creado");
+                    }
+                  });
+              } else {
+                document.getElementById("error").innerText =
+                  "Ingresa un comentario";
+              }
+            });
+        </script>
+      </button>
       <span class="error" id="error"></span>
     </form>
   </body>
-  <script src="./comp.js"></script>
 </html>
