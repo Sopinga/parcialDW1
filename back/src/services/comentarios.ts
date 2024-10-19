@@ -49,3 +49,12 @@ export const erase = async (id_tema: number, id_comentario: number) => {
   await db.query(query, [id_tema, id_comentario]);
   return findAll(id_tema);
 };
+
+export const findById = async (id_comentario: number) => {
+  const query = `
+    SELECT * FROM public.comentarios
+    WHERE id_comentario=$1
+  `;
+  const res = await db.query(query, [id_comentario]); // Debería ser
+  return res.rows[0];
+};
